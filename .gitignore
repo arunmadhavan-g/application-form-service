@@ -1,0 +1,5 @@
+build
+node_modules
+dev.sqlite3
+yarn-error.log
+.idea
