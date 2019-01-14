@@ -8,9 +8,6 @@ export default router => {
         const inserted = await transaction(Application.knex(),
                                                 tx => Application.query(tx)
                                                                         .insertGraph(graph));
-
-        console.log("The inserted value is:", inserted);
-
         res.send(inserted);
     });
 
