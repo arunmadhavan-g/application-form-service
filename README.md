@@ -1,9 +1,10 @@
 ## Fields needed
 
 1. Name of the Student
-2. DOB
-3. Nationality
-4. Parents Details
+2. Gender
+3. DOB
+4. Nationality
+5. Parents Details
 	
 	* Father
 	
@@ -19,7 +20,7 @@
 		* Alumni?
 		* Annual Income
 		
-5. Address
+6. Address
  
 	* Door No.
 	* House No.
@@ -30,13 +31,13 @@
 	* State
 	* Pincode
 	
-6. Distance form School ( in KM )
-7. Alumni Details
+7. Distance form School ( in KM )
+8. Alumni Details
 
 	* Year of Passing
 	* Reg. No.
 	 
-8. Siblings?
+9. Siblings?
 
 	* Name of the sibling
 	* Class
