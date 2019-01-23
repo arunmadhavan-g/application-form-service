@@ -1,30 +1,46 @@
-import {transaction} from "objection";
-import Application from "./models/application"
-import ApplicationForms from "./models/ApplicationForms";
-
+import {createApplication, allApplications} from "./models/application"
+import {loginCount} from "./models/admin";
+import {start, end} from "./models/schedule";
+import json2xls from 'json2xls';
 
 export default router => {
-    router.post("/applications", async (req, res) => {
+
+    // unprotected
+    router.post("/application", async (req, res) => {
         const graph = req.body;
-        const inserted = await transaction(Application.knex(),
-                                                tx => Application.query(tx)
-                                                                        .insertGraph(graph));
+        const inserted = await createApplication(graph);
         res.send(inserted);
     });
 
-    router.get("/applications", async (req, res) => {
-        console.log("is it coming here?");
-        const application = await Application.query().orderBy("id");
-        res.send(application);
+    //unprotected
+    router.post("/login", async (req, res) => {
+        const {user, password} = req.body;
+        const count = await loginCount(user, password);
+        count > 0? res.status(200) : res.status(401);
+        res.send();
     });
 
+    //protected
+    router.post("/start", async (req, res) => {
+        const {event} = req.body;
+        await start(event);
+        res.send();
+    });
 
-    router.post("/application_forms", async (req, res)=>{
-       const graph = req.body;
-        // console.log("graph", graph);
-        const inserted = await transaction(ApplicationForms.knex(),
-                                                tx => ApplicationForms.query(tx)
-                                                    .insertGraph(graph));
-       res.send(inserted);
+    //protected
+    router.post("/end", async (req, res) => {
+        const {event} = req.body;
+        await end(event);
+        res.send();
+    });
+
+    //protected
+    router.get("/application_dump", async (req, res) => {
+       const all = await allApplications();
+       const xlsx = json2xls(all);
+       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+       res.setHeader('Content-Disposition', 'attachment; filename=applications.xlsx');
+       res.write(xlsx, 'binary');
+       res.send();
     });
 }

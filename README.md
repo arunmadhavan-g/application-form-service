@@ -44,3 +44,19 @@
 	* Section
 
 
+
+
+# What is required?
+
+## Admin
+    - Option to start / end
+    - If possible between a time period 
+    - Should have a login
+    - Download the downloaded document details
+
+## User
+    - View the screen with options to 
+        * Search based on ID/ Other details
+        * Create Application
+    - Once the application create is clicked it would open a page that would give the option to fill details and download. 
+   
