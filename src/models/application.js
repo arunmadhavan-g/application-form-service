@@ -30,7 +30,10 @@ const createApplication = async (graph) => await transaction(Application.knex(),
 
 const allApplications = async () => await Application.query().orderBy('applications.id');
 
+const getApplication = async id => await Application.query().findById(id);
+
 export {
     createApplication,
-    allApplications
+    allApplications,
+    getApplication
 }

@@ -1,9 +1,40 @@
-import {createApplication, allApplications} from "./models/application"
+import {createApplication, allApplications, getApplication} from "./models/application"
 import {loginCount} from "./models/admin";
 import {start, end} from "./models/schedule";
 import json2xls from 'json2xls';
+import pug from "pug/lib";
+import pdf from "html-pdf";
 
 export default router => {
+
+
+    router.get("/pdf/:id", async (req, res) => {
+        const val = await getApplication(req.params.id);
+        const applicationTemplate= pug.compileFile('templates/application.pug');
+
+        const html = applicationTemplate({
+            pageTitle: val.name,
+            youAreUsingPug: true,
+            foo: true,
+            bar: val.id
+        });
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=application.pdf');
+
+        pdf.create(html).toStream((err, stream) => {
+            stream.pipe(res)
+        });
+
+        // res.send(html);
+    });
+
+
+    router.get("/application/:id", async (req, res) => {
+        const val = await getApplication(req.params.id);
+        console.log("the val queries is:", val, req.params.id);
+        res.send(val);
+    });
 
     // unprotected
     router.post("/application", async (req, res) => {

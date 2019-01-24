@@ -28,24 +28,24 @@ const port = 3010;
 
 registerApi(router);
 
-app.get("/pdf", (req, res) => {
-    const applicationTemplate= pug.compileFile('templates/application.pug');
-
-    const html = applicationTemplate({
-        pageTitle: "VM Application",
-        youAreUsingPug: true,
-        foo: true,
-        bar: (val) => `hello ${val}`
-    });
-
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=application.pdf');
-
-    pdf.create(html).toStream((err, stream) => {
-        stream.pipe(res)
-    });
-
-    // res.send(html);
-});
+// app.get("/pdf", (req, res) => {
+//     const applicationTemplate= pug.compileFile('templates/application.pug');
+//
+//     const html = applicationTemplate({
+//         pageTitle: "VM Application",
+//         youAreUsingPug: true,
+//         foo: true,
+//         bar: (val) => `hello ${val}`
+//     });
+//
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'attachment; filename=application.pdf');
+//
+//     pdf.create(html).toStream((err, stream) => {
+//         stream.pipe(res)
+//     });
+//
+//     // res.send(html);
+// });
 
 app.listen(port, ()=> console.log("Started the server in Port"+ port));
